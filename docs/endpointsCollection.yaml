@@ -1,0 +1,346 @@
+_type: export
+__export_format: 4
+__export_date: 2021-02-09T19:04:13.213Z
+__export_source: insomnia.desktop.app:v2020.5.2
+resources:
+  - _id: req_a0e3d156d48d48fe9ddc2132873f1f86
+    parentId: wrk_1841c8c526dd4fc89634c1dd20d8d342
+    modified: 1612891254436
+    created: 1612891254436
+    url: ""
+    name: Kraken
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1612891254436
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: wrk_1841c8c526dd4fc89634c1dd20d8d342
+    parentId: null
+    modified: 1612886425407
+    created: 1612886425407
+    name: Bitcoin Index
+    description: ""
+    scope: null
+    _type: workspace
+  - _id: req_125cabfef5f4427e855b33250ef74ba6
+    parentId: wrk_1841c8c526dd4fc89634c1dd20d8d342
+    modified: 1612890886584
+    created: 1612888397868
+    url: https://api.gemini.com/v2/candles/btcusd/1m
+    name: Gemini
+    description: |-
+      ##RESPONSE	
+
+          Array of Arrays	Descending order by time
+          -- -- time	long	Time in milliseconds
+          -- -- open	decimal	Open price
+          -- -- high	decimal	High price
+          -- -- low	decimal	Low price
+          -- -- close	decimal	Close price
+          -- -- volume	decimal	Volume
+    method: GET
+    body: {}
+    parameters:
+      - name: symbol
+        value: btcusdt
+        description: ""
+        id: pair_7aee8915edcb40528ec79fedc8aa04d7
+        disabled: true
+      - name: time_frame
+        value: 1min
+        description: ""
+        id: pair_5dba4ab37ff143ec93d06f5bf1a90871
+        disabled: true
+      - name: startTime
+        value: ""
+        description: ""
+        id: pair_afcc8ec919d3485b962e02a992da4c6b
+        disabled: true
+      - name: endTime
+        value: ""
+        description: ""
+        id: pair_d1e254e1ab724b7f9966a16c21a82197
+        disabled: true
+      - name: limit
+        value: "60"
+        description: ""
+        id: pair_c7ef74237f7541599fb6d1e9e2692aff
+        disabled: false
+    headers: []
+    authentication: {}
+    metaSortKey: -1612888397868
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_964d46ae83794f849eb3458fd8bbd5c3
+    parentId: wrk_1841c8c526dd4fc89634c1dd20d8d342
+    modified: 1612888867210
+    created: 1612887125212
+    url: https://www.bitstamp.net/api/v2/ohlc/btcusd/
+    name: Bitstamp
+    description: |-
+      ## RESPONSE
+
+          pair	Trading pair
+          high	Price high
+          timestamp	Unix timestamp date and time
+          volume	Volume
+          low	Price low
+          close	Closing price
+          open	Opening price
+    method: GET
+    body: {}
+    parameters:
+      - name: step
+        value: "60"
+        description: ""
+        id: pair_729403b8eea240c79c039c6d45b0ba5f
+      - name: limit
+        value: "60"
+        description: ""
+        id: pair_0a818dbccc934e1db280b6d55a06b6b5
+      - name: start
+        value: ""
+        description: ""
+        id: pair_d6a455eded654b90a64fb18a5d2fc7af
+        disabled: true
+      - name: end
+        value: "1612887428"
+        description: ""
+        id: pair_1a2cf0b8b9b64cc2b8a7c4e122c03735
+    headers: []
+    authentication: {}
+    metaSortKey: -1612887125212
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_36c143190d4c4f4d98ef59202cc02740
+    parentId: wrk_1841c8c526dd4fc89634c1dd20d8d342
+    modified: 1612897366938
+    created: 1612886502853
+    url: https://api.binance.com/api/v3/klines
+    name: Binance
+    description: |
+      ## RESPONSE
+          [
+            [
+              1499040000000,      // Open time
+              "0.01634790",       // Open
+              "0.80000000",       // High
+              "0.01575800",       // Low
+              "0.01577100",       // Close
+              "148976.11427815",  // Volume
+              1499644799999,      // Close time
+              "2434.19055334",    // Quote asset volume
+              308,                // Number of trades
+              "1756.87402397",    // Taker buy base asset volume
+              "28.46694368",      // Taker buy quote asset volume
+              "17928899.62484339" // Ignore.
+            ]
+          ]
+    method: GET
+    body: {}
+    parameters:
+      - name: symbol
+        value: BTCUSDT
+        description: ""
+        id: pair_548c701f3ce54a999477ef3b8b5bfad7
+      - name: interval
+        value: 1m
+        description: ""
+        id: pair_1a6504c6b0fe4a2ab0df668895c142fe
+        disabled: false
+      - name: startTime
+        value: ""
+        description: ""
+        id: pair_d4569b10a1fc40f297980c3fbc94f690
+        disabled: true
+      - name: endTime
+        value: ""
+        description: ""
+        id: pair_57fbdb2d8dff46b88d61e66f350a1d10
+        disabled: true
+      - name: limit
+        value: "60"
+        description: ""
+        id: pair_7f8b32a9b02949eb92dfd4d0bafd262b
+    headers: []
+    authentication: {}
+    metaSortKey: -1612886502853
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: false
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: env_7d83ecbfc89ddbc482d42176275403673772b7bd
+    parentId: wrk_1841c8c526dd4fc89634c1dd20d8d342
+    modified: 1612886425626
+    created: 1612886425626
+    name: Base Environment
+    data: {}
+    dataPropertyOrder: null
+    color: null
+    isPrivate: false
+    metaSortKey: 1612886425626
+    _type: environment
+  - _id: jar_7d83ecbfc89ddbc482d42176275403673772b7bd
+    parentId: wrk_1841c8c526dd4fc89634c1dd20d8d342
+    modified: 1612889307982
+    created: 1612886425630
+    name: Default Jar
+    cookies:
+      - key: stmpdid
+        value: OAFBfU-oTmqa_KbHB5SmV4FWCz9-DTwIPIgmdsQuhjl8roUL8hKiFetAYNGUgJYBll_DS2I8TdeVIgilStoNrTo
+        expires: 2028-02-08T16:59:50.000Z
+        maxAge: 220752000
+        domain: www.bitstamp.net
+        path: /
+        secure: true
+        httpOnly: true
+        hostOnly: true
+        creation: 2021-02-09T16:01:54.706Z
+        lastAccessed: 2021-02-09T16:01:54.706Z
+        id: "7870943139971065"
+      - key: visid_incap_99025
+        value: 8oN3XOo4SLyUSsv1+zGw04W/ImAAAAAAQUIPAAAAAAC/ED2geVjKhYQuImuhDG3I
+        expires: 2022-02-09T10:25:10.000Z
+        domain: bitstamp.net
+        path: /
+        httpOnly: true
+        hostOnly: false
+        creation: 2021-02-09T16:01:54.706Z
+        lastAccessed: 2021-02-09T16:01:54.706Z
+        id: "4985360275274715"
+      - key: nlbi_99025
+        value: NieiXkyEZFSW7RNVL9q5pgAAAACl3dTPx7nBp/XxkbcY/q4v
+        domain: bitstamp.net
+        path: /
+        hostOnly: false
+        creation: 2021-02-09T16:01:54.708Z
+        lastAccessed: 2021-02-09T16:01:54.708Z
+        id: "19434708688627955"
+      - key: incap_ses_685_99025
+        value: VgpzRqXSJEYKqQ9yMJyBCam/ImAAAAAAf8M1XrbP7pfVM133WpURtQ==
+        domain: bitstamp.net
+        path: /
+        hostOnly: false
+        creation: 2021-02-09T16:01:54.709Z
+        lastAccessed: 2021-02-09T16:02:30.117Z
+        id: "44745018935016967"
+      - key: __cfduid
+        value: d4a3ca76270f1cbc701093ebedc2567dd1612890393
+        expires: 2021-03-11T17:06:33.000Z
+        domain: bitfinex.com
+        path: /
+        httpOnly: true
+        extensions:
+          - SameSite=Lax
+        hostOnly: false
+        creation: 2021-02-09T16:08:38.129Z
+        lastAccessed: 2021-02-09T16:08:38.129Z
+        id: "6900800410177734"
+      - key: __cfduid
+        value: d494126026228ef860b7aae8bd40667381612892446
+        expires: 2021-03-11T17:40:46.000Z
+        domain: coinbase.com
+        path: /
+        secure: true
+        httpOnly: true
+        extensions:
+          - SameSite=Lax
+        hostOnly: false
+        creation: 2021-02-09T16:42:50.791Z
+        lastAccessed: 2021-02-09T16:42:50.791Z
+        id: "13426183186600849"
+      - key: coinbase_device_id
+        value: 642499d2-6421-4def-8cc9-50cbad205210
+        expires: 2041-02-09T17:40:46.000Z
+        domain: coinbase.com
+        path: /
+        secure: true
+        extensions:
+          - SameSite=Lax
+        hostOnly: false
+        creation: 2021-02-09T16:42:50.792Z
+        lastAccessed: 2021-02-09T16:42:50.792Z
+        id: "18208584022529917"
+      - key: amplitude_device_id
+        value: 642499d2-6421-4def-8cc9-50cbad205210
+        expires: 2041-02-09T17:40:46.000Z
+        domain: coinbase.com
+        path: /
+        secure: true
+        extensions:
+          - SameSite=Lax
+        hostOnly: false
+        creation: 2021-02-09T16:42:50.793Z
+        lastAccessed: 2021-02-09T16:42:50.793Z
+        id: "35035876438414326"
+      - key: _coinbase_session
+        value: QkJpZUh2ZTRrU1hLSUMrb3hBV0x4NU5zaFBuNGc3WTYxTHE2Uys0U1IvRm9yY0wwSGFCVFYvNHBMWnNDbENCOS9UZW9SZytqcHNaSVhCM3R6bnFGU0JPVEZwMmpmRE15Q21QbGYwWmkreXRYYWlGcmdaNUFBb3FRMDNMNEEwUHgtLXdvcHg0MWpzYWZlOUhyZDlxT1NqTEE9PQ%3D%3D--c395a28ce91d2781e5ad1bc8cbd0333312933e1b
+        domain: api.coinbase.com
+        path: /
+        secure: true
+        httpOnly: true
+        hostOnly: true
+        creation: 2021-02-09T16:42:50.794Z
+        lastAccessed: 2021-02-09T16:42:50.794Z
+        id: "9589878929185809"
+      - key: __cf_bm
+        value: d6ec3f6b9aee35c45f43b38a067f859d72e158d3-1612892446-1800-AXTJOMTcCYFrxmf4t7Ubif+LZxcR5d1YYEO6ucJCE6jk5CAK9gXELCeYZ4O/nerr6MVl3AJ5nkLTtre9uxVdFHg=
+        expires: 2021-02-09T18:10:46.000Z
+        domain: coinbase.com
+        path: /
+        secure: true
+        httpOnly: true
+        extensions:
+          - SameSite=None
+        hostOnly: false
+        creation: 2021-02-09T16:42:50.794Z
+        lastAccessed: 2021-02-09T16:42:50.794Z
+        id: "008619866344082627"
+      - key: __cfduid
+        value: d4e15a5a5ee282b7422c0c52ce29e89a91612892783
+        expires: 2021-03-11T17:46:23.000Z
+        domain: huobi.pro
+        path: /
+        secure: true
+        httpOnly: true
+        extensions:
+          - SameSite=Lax
+        hostOnly: false
+        creation: 2021-02-09T16:48:27.981Z
+        lastAccessed: 2021-02-09T16:48:27.981Z
+        id: "07159029222217073"
+    _type: cookie_jar
+  - _id: spc_7cb38f2f705f4204be696df01ef04224
+    parentId: wrk_1841c8c526dd4fc89634c1dd20d8d342
+    modified: 1612886425454
+    created: 1612886425454
+    fileName: Bitcoin Index
+    contents: ""
+    contentType: yaml
+    _type: api_spec
