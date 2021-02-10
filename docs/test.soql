@@ -1,0 +1,2 @@
+SELECT Id, Name, BillingStreet, BillingCity, Type, ShippingCity
+  FROM Account

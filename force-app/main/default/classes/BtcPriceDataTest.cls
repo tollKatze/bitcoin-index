@@ -11,7 +11,7 @@ public class BtcPriceDataTest {
         
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, mock);
-        HttpResponse result = BinanceDataCallout.makeGetCallout();
+        HttpResponse result;// = BinanceBitcoinData.makeGetCallout();
         System.assertNotEquals(
             null,
             result,

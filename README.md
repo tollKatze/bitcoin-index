@@ -12,5 +12,8 @@ As a Salesforce Developer, I want to create an index of Bitcoin price from 3 to 
 * Bitstamp https://www.bitstamp.net/api/
 * Kraken https://www.kraken.com/features/api#get-ohlc-data
 
+
+
+
 endpoint collection here
 
