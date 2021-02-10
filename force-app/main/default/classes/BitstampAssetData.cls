@@ -1,10 +1,10 @@
 public with sharing class BitstampAssetData implements IAssetData {
     
-    public String getAssetData() {
-        return 'true';
+    public HttpResponse getAssetData(String pair) {
+        return new HttpResponse();
     }
 
-    public Map<String, AssetCandleObject> parseAssetData() {
+    public Map<String, AssetCandleObject> parseAssetData(HttpResponse response) {
         return new Map<String, AssetCandleObject>();
     }
 }

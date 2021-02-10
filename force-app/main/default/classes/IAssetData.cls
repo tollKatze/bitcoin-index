@@ -1,6 +1,6 @@
 public interface IAssetData {
 
-    String getAssetData();
-    Map<String, AssetCandleObject> parseAssetData();
+    HttpResponse getAssetData(String pair);
+    Map<String, AssetCandleObject> parseAssetData(HttpResponse dataResponse);
 
 }

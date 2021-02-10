@@ -3,7 +3,7 @@ public class BtcPriceDataTest {
 
     @isTest
     private static void whenBinancePriceIsRequsted_checkData() {
-        
+        final String BTCUSDT = 'BTCUSDT';
         StaticResourceCalloutMock mock = new StaticResourceCalloutMock();
         mock.setStaticResource('binanceMockResponse');
         mock.setStatusCode(200);
@@ -11,7 +11,9 @@ public class BtcPriceDataTest {
         
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, mock);
-        HttpResponse result;// = BinanceBitcoinData.makeGetCallout();
+        IAssetData binanceData = (IAssetData) di_Injector.Org.getInstance('Binance');
+
+        HttpResponse result = binanceData.getAssetData(BTCUSDT);
         System.assertNotEquals(
             null,
             result,
