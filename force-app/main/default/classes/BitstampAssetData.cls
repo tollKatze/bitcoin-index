@@ -1,6 +1,6 @@
 public with sharing class BitstampAssetData implements IAssetData {
     
-    public HttpResponse getAssetData(String pair) {
+    public HttpResponse getAssetData(String pair, String timeInterval) {
         return new HttpResponse();
     }
 

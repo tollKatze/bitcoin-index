@@ -3,17 +3,35 @@ public class BtcPriceDataTest {
 
     @isTest
     private static void whenBinancePriceIsRequsted_checkData() {
+        StaticResource BinancePayloadMock = 
+            [
+                SELECT Id, Body 
+                FROM StaticResource 
+                WHERE Name = 'binanceMockResponse' 
+                LIMIT 1
+            ];
+        Blob bodyMock = BinancePayloadMock.Body;
         final String BTCUSDT = 'BTCUSDT';
-        StaticResourceCalloutMock mock = new StaticResourceCalloutMock();
-        mock.setStaticResource('binanceMockResponse');
-        mock.setStatusCode(200);
-        mock.setHeader('Content-Type', 'text/plain;charset=UTF-8');
+        
+        Map<String, String> mockHeaders  = new Map<String, String>();
+        mockHeaders.put('Content-Type','application/json;charset=UTF-8');
+
+        BinanceAssetMock mockBinance = new BinanceAssetMock(
+                                                200,
+                                                'OK',
+                                                bodyMock,
+                                                mockHeaders
+                                            );
         
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, mock);
+        Test.setMock(HttpCalloutMock.class, mockBinance);
         IAssetData binanceData = (IAssetData) di_Injector.Org.getInstance('Binance');
-
         HttpResponse result = binanceData.getAssetData(BTCUSDT);
+        String body = result.getBody();
+        system.debug(body);
+        //Object[] response = (List<Object>) JSON.deserializeUntyped(body);
+        
+        
         System.assertNotEquals(
             null,
             result,
