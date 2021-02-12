@@ -67,12 +67,12 @@
 		<name>CustomMetadata</name>
 	</types>
 	<types>
+		<members>AssetDataSources__mdt</members>
 		<members>Binance_BTCUSDT__c</members>
 		<members>Bitstamp_BTCUSD__c</members>
 		<members>Gemini_BTCUSD__c</members>
 		<members>Kraken_BTCUSD__c</members>
 		<members>di_Binding__mdt</members>
-		<members>AssetDataSource__mdt</members>
 		<name>CustomObject</name>
 	</types>
 	<types>
@@ -86,6 +86,10 @@
 	<types>
 		<members>*</members>
 		<name>LightningComponentBundle</name>
+	</types>
+	<types>
+		<members>*</members>
+		<name>RemoteSiteSetting</name>
 	</types>
 	<types>
 		<members>*</members>

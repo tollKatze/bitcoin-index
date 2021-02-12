@@ -3,7 +3,7 @@
     <fullName>unix_time__c</fullName>
     <externalId>true</externalId>
     <label>unix_time</label>
-    <precision>12</precision>
+    <precision>14</precision>
     <required>false</required>
     <scale>0</scale>
     <trackTrending>false</trackTrending>

@@ -7,7 +7,8 @@ public with sharing class BinanceAssetData implements IAssetData {
     }
 
     public Long getStartTime(){
-        List<AggregateResult> startTime = [ SELECT MAX(unix_time__c) start FROM Binance_BTCUSDT__c ];
+        List<AggregateResult> startTime = 
+            [ SELECT MAX(unix_time__c) start FROM Binance_BTCUSDT__c ];
         String decimalString = String.valueOf(startTime[0].get('start'));
         return Long.valueOf(decimalString);
     }
@@ -33,14 +34,14 @@ public with sharing class BinanceAssetData implements IAssetData {
         request.setMethod('GET');
         Integer failCount = 0;
         String endpointPath = 
-            '?symbol=' + pair +
-            '&interval=1m';
-            
+            '?symbol=' + pair +'&interval=' + timeInterval + 
+            '&startTime=' + String.valueOf(this.getStartTime());
 
         for(String ep : availableClusters){
-            request.setEndpoint(ep);
+            request.setEndpoint(ep + endpointPath);
             try {
                 response = http.send(request);
+                if(response.getStatusCode() != 200) failCount++;
             } catch (Exception e) {
                 failCount++;
                 errorList.add(e);
@@ -50,7 +51,7 @@ public with sharing class BinanceAssetData implements IAssetData {
                 );
             }
         }
-        if(failCount == availableClusters.size()){
+        if(failCount >= availableClusters.size()){
             system.debug('ERROR DATA_SOURCE_404: ' + String.valueof(errorList));
             throw new DataSourceRequestException(
                 'ERROR DATA_SOURCE_404: All Binance available API clusters fail on data request!'
