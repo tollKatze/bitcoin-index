@@ -6,8 +6,10 @@ public with sharing class BinanceAssetData implements IAssetData {
         return new Map<String, AssetCandleObject>();
     }
 
-    public String getStartTime(){
-        return '1613080251';//dummy unix_time
+    public Long getStartTime(){
+        List<AggregateResult> startTime = [ SELECT MAX(unix_time__c) start FROM Binance_BTCUSDT__c ];
+        String decimalString = String.valueOf(startTime[0].get('start'));
+        return Long.valueOf(decimalString);
     }
 
     
@@ -30,8 +32,8 @@ public with sharing class BinanceAssetData implements IAssetData {
         List<Exception> errorList = new List<Exception>();
         request.setMethod('GET');
         Integer failCount = 0;
-        String endpointPath = 'api/v3/klines?' +
-            'symbol=' + pair +
+        String endpointPath = 
+            '?symbol=' + pair +
             '&interval=1m';
             
 

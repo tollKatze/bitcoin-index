@@ -72,6 +72,7 @@
 		<members>Gemini_BTCUSD__c</members>
 		<members>Kraken_BTCUSD__c</members>
 		<members>di_Binding__mdt</members>
+		<members>AssetDataSource__mdt</members>
 		<name>CustomObject</name>
 	</types>
 	<types>
