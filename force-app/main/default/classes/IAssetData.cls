@@ -1,6 +1,6 @@
 public interface IAssetData {
-
+    Long getStartTime();
     HttpResponse getAssetData(String pair, String timeInterval);
-    Map<String, AssetCandleObject> parseAssetData(HttpResponse dataResponse);
+    Map<Long, AssetCandleObject> parseAssetData(HttpResponse dataResponse);
 
 }

@@ -1,10 +1,14 @@
 public with sharing class BitstampAssetData implements IAssetData {
+
+    public Long getStartTime(){
+        return Long.valueof('123456789012');
+    }
     
     public HttpResponse getAssetData(String pair, String timeInterval) {
         return new HttpResponse();
     }
 
-    public Map<String, AssetCandleObject> parseAssetData(HttpResponse response) {
-        return new Map<String, AssetCandleObject>();
+    public Map<Long, AssetCandleObject> parseAssetData(HttpResponse response) {
+        return new Map<Long, AssetCandleObject>();
     }
 }

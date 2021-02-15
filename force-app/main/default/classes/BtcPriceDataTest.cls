@@ -35,6 +35,7 @@ public class BtcPriceDataTest {
 
     @isTest
     private static void whenBinancePriceIsCorrectlyRequsted_checkData() {
+
         String BTCUSDT = 'BTCUSDT';
         String ONE_MINUTE = '1m';
         StaticResource BinancePayloadMock = 
@@ -55,13 +56,61 @@ public class BtcPriceDataTest {
                                                 mockHeaders
                                             );
         
+        Map<Long, AssetCandleObject> assertionData = new Map<Long, AssetCandleObject>();                          
+        
+        AssetCandleObject candleOne =  new AssetCandleObject();
+        candleOne.unix_time = Long.valueOf('1612897440000');
+        candleOne.date_time = Datetime.newInstance(Long.valueOf('1612897440000'));
+        candleOne.open = 47121.32;
+        candleOne.high = 47175.65;
+        candleOne.low = 47101.69;
+        candleOne.close = 47125.27;
+        
+        assertionData.put(
+            Long.valueOf('1612897440000'),
+            candleOne
+        );
+        AssetCandleObject candleTwo = new AssetCandleObject();
+        candleTwo.unix_time = Long.valueOf('1612897500000');
+        candleTwo.date_time = Datetime.newInstance(Long.valueOf('1612897500000'));
+        candleTwo.open = 47125.27;
+        candleTwo.high = 47158.16;
+        candleTwo.low = 47110.59;
+        candleTwo.close = 47110.60;
+
+        assertionData.put(
+            Long.valueOf('1612897500000'),
+            candleTwo
+        );
+
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, mockBinance);
 
         IAssetData binanceData = (IAssetData) di_Injector.Org.getInstance('Binance');
         HttpResponse result =   binanceData.getAssetData( BTCUSDT, ONE_MINUTE );
-        String body = result.getBody();
         
+        Map<Long, AssetCandleObject> parsedBinanceData =  binanceData.parseAssetData(result);
+        
+        AssetCandleObject assertionCandleOne = assertionData.get(
+            Long.valueOf('1612897440000')
+        );
+        AssetCandleObject actualCandleOne = parsedBinanceData.get(
+            Long.valueOf('1612897440000')
+        );
+        system.debug('Expected: ' + assertionCandleOne);
+        System.debug('Actual : ' + actualCandleOne);
+        System.assert(
+            (
+                (assertionCandleOne.unix_time == actualCandleOne.unix_time) &&
+                (assertionCandleOne.date_time == actualCandleOne.date_time) &&
+                (assertionCandleOne.open == actualCandleOne.open) &&
+                (assertionCandleOne.high == actualCandleOne.high) &&
+                (assertionCandleOne.low == actualCandleOne.low) &&
+                (assertionCandleOne.close == actualCandleOne.close)
+            ),
+            'Assertion failed Payload transformation incorrect!'
+        );
+
         System.assertNotEquals(
             null,
             result,
@@ -99,13 +148,11 @@ public class BtcPriceDataTest {
         } catch (BinanceAssetData.DataSourceRequestException e) {
             errorMessage = e.getMessage();
         }
-        system.debug(errorMessage);
-
         system.assert(
             errorMessage.contains(
                 'ERROR DATA_SOURCE_404: All Binance available API clusters fail on data request!'
             ),
-            ''
+            'Error is not the expected'
         );
         
         System.assertEquals(
@@ -117,11 +164,11 @@ public class BtcPriceDataTest {
     }
 
     @isTest
-    private static void whenStartTimeIsretrieved_checkForCorrectParameter(){
+    private static void whenStartTimeIsretrieved_checkForCorrectResult(){
         Long latestTime = Long.valueof('1609462860000'); //Friday, January 1, 2021 1:10:00 AM
+        IAssetData binanceData = (IAssetData) di_Injector.Org.getInstance('Binance');
+        
         Test.startTest();
-
-        BinanceAssetData binanceData = new BinanceAssetData();
         Long startTime = binanceData.getStartTime();
 
         system.assertEquals(
@@ -129,13 +176,14 @@ public class BtcPriceDataTest {
             startTime,
             'Retrived startTIme is not correct. Expecting ' + latestTime
         );
-
         Test.stopTest();
-
     }
 
     @isTest
-    private static void when(){}
+    private static void whenCalloutIsSuccessful_verifyPayloadHandling(){
+        
+
+    }
         
     
 }

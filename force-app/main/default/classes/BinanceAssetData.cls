@@ -2,15 +2,42 @@ public with sharing class BinanceAssetData implements IAssetData {
 
     public class DataSourceRequestException extends Exception {}
 
-    public Map<String, AssetCandleObject> parseAssetData(HttpResponse response) {
-        return new Map<String, AssetCandleObject>();
+    public Map<Long, AssetCandleObject> parseAssetData(HttpResponse response) {
+        
+        Map<Long, AssetCandleObject> binanceParsedData = new Map<Long, AssetCandleObject>();
+        String body = response.getBody();
+        List<Object> binancePayloadList =
+            (List<Object>) System.JSON.deserializeUntyped(body);
+
+        for(Object candle : binancePayloadList){
+
+            String cleanString = (String.valueOf(candle)).remove('(');
+            cleanString = cleanString.remove(')');
+            List<String> theList  = cleanString.split(',');
+            AssetCandleObject newCandle = new AssetCandleObject();
+
+            newCandle.unix_time = Long.valueOf(theList[0]);
+            newCandle.date_time = Datetime.newInstance( Long.valueOf(theList[0]) );
+            newCandle.open = Double.valueOf(theList[1]);
+            newCandle.high = Double.valueOf(theList[2]);
+            newCandle.low = Double.valueOf(theList[3]);
+            newCandle.close = Double.valueOf(theList[4]);
+
+            binanceParsedData.put(
+                Long.valueOf(theList[0]),
+                newCandle
+            );
+        }
+        return binanceParsedData;
     }
 
     public Long getStartTime(){
+
         List<AggregateResult> startTime = 
             [ SELECT MAX(unix_time__c) start FROM Binance_BTCUSDT__c ];
         String decimalString = String.valueOf(startTime[0].get('start'));
         return Long.valueOf(decimalString);
+
     }
 
     
@@ -41,7 +68,13 @@ public with sharing class BinanceAssetData implements IAssetData {
             request.setEndpoint(ep + endpointPath);
             try {
                 response = http.send(request);
-                if(response.getStatusCode() != 200) failCount++;
+                if(response.getStatusCode() != 200){
+                    failCount++;
+                    system.debug(
+                        'WARNING DATA_SOURCE_101: ' + ep + endpointPath + 
+                        ' returned ' + response.getStatusCode()
+                    );
+                } 
             } catch (Exception e) {
                 failCount++;
                 errorList.add(e);

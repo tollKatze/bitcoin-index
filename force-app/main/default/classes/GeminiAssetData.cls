@@ -1,4 +1,8 @@
 public with sharing class GeminiAssetData implements IAssetData {
+
+    public Long getStartTime(){
+        return Long.valueof('123456789012');
+    }
     
     public HttpResponse getAssetData(String pair, String timeInterval) {
         HttpResponse r = new HttpResponse();
@@ -6,7 +10,7 @@ public with sharing class GeminiAssetData implements IAssetData {
         return r;
     }
 
-    public Map<String, AssetCandleObject> parseAssetData(HttpResponse response) {
-        return new Map<String, AssetCandleObject>();
+    public Map<Long, AssetCandleObject> parseAssetData(HttpResponse response) {
+        return new Map<Long, AssetCandleObject>();
     }
 }
