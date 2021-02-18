@@ -1,6 +1,6 @@
 @isTest
-public class BtcPriceDataTest {
-
+public class BtcPriceDataRandomClusterFailureTest {
+    
     @TestSetup
     static void makeData(){
         List<Binance_BTCUSDT__c> priceDataTest = new List<Binance_BTCUSDT__c>();
@@ -34,7 +34,7 @@ public class BtcPriceDataTest {
     }
 
     @isTest
-    private static void whenBinancePriceIsCorrectlyRequsted_checkData() {
+    private static void whenBinancePriceIsCorrectlyRequstedAndRandomClusterFails_checkData() {
 
         String BTCUSDT = 'BTCUSDT';
         String ONE_MINUTE = '1m';
@@ -49,7 +49,7 @@ public class BtcPriceDataTest {
         Map<String, String> mockHeaders  = new Map<String, String>();
         mockHeaders.put('Content-Type','application/json;charset=UTF-8');
 
-        AssetDataMock mockBinance = new AssetDataMock(
+        AssetDataMockRandomClusterFailure mockBinance = new AssetDataMockRandomClusterFailure(
                                         200,
                                         'OK',
                                         bodyMock,
@@ -97,13 +97,8 @@ public class BtcPriceDataTest {
         AssetCandleObject actualCandleOne = parsedBinanceData.get(
             Long.valueOf('1612897440000')
         );
-        AssetCandleObject assertionCandleTwo = assertionData.get(
-            Long.valueOf('1612897500000')
-        );
-        AssetCandleObject actualCandleTwo = parsedBinanceData.get(
-            Long.valueOf('1612897500000')
-        );
-
+        system.debug('Expected: ' + assertionCandleOne);
+        System.debug('Actual : ' + actualCandleOne);
         System.assert(
             (
                 (assertionCandleOne.unix_time == actualCandleOne.unix_time) &&
@@ -112,18 +107,6 @@ public class BtcPriceDataTest {
                 (assertionCandleOne.high == actualCandleOne.high) &&
                 (assertionCandleOne.low == actualCandleOne.low) &&
                 (assertionCandleOne.close == actualCandleOne.close)
-            ),
-            'Assertion failed Payload transformation incorrect!'
-        );
-
-        System.assert(
-            (
-                (assertionCandleTwo.unix_time == actualCandleTwo.unix_time) &&
-                (assertionCandleTwo.date_time == actualCandleTwo.date_time) &&
-                (assertionCandleTwo.open == actualCandleTwo.open) &&
-                (assertionCandleTwo.high == actualCandleTwo.high) &&
-                (assertionCandleTwo.low == actualCandleTwo.low) &&
-                (assertionCandleTwo.close == actualCandleTwo.close)
             ),
             'Assertion failed Payload transformation incorrect!'
         );
@@ -140,60 +123,4 @@ public class BtcPriceDataTest {
         Test.stopTest();
         
     }
-
-    @isTest
-    private static void whenBinancePriceIsNotCorrectlyRequsted_checkErrors() {
-        String BTCUSDTT = 'BTCUSDTT'; //typo error to force wrong price rquest
-        String ONE_MINUTE = '1m';
-        Map<String, String> mockHeaders  = new Map<String, String>();
-        mockHeaders.put('Content-Type','application/json;charset=UTF-8');
-
-        AssetDataMock mockBinance = new AssetDataMock(
-                                                400,
-                                                'Bad request',
-                                                '',
-                                                mockHeaders
-                                            );
-        IAssetData binanceData = (IAssetData) di_Injector.Org.getInstance('Binance');
-        
-        Test.startTest();
-        Test.setMock(HttpCalloutMock.class, mockBinance);
-        String errorMessage;
-        HttpResponse result = new HttpResponse();
-        try {
-            result = binanceData.getAssetData( BTCUSDTT, ONE_MINUTE );
-        } catch (BinanceAssetData.DataSourceRequestException e) {
-            errorMessage = e.getMessage();
-        }
-        system.assert(
-            errorMessage.contains(
-                'ERROR DATA_SOURCE_404: All Binance available API clusters fail on data request!'
-            ),
-            'Error is not the expected'
-        );
-        
-        System.assertEquals(
-            0,
-            result.getStatusCode(),
-            'The status code is not correct. A 400 code expected!');
-        Test.stopTest();
-        
-    }
-
-
-    @isTest
-    private static void whenStartTimeIsretrieved_checkForCorrectResult(){
-        Long latestTime = Long.valueof('1609462860000'); //Friday, January 1, 2021 1:10:00 AM
-        IAssetData binanceData = (IAssetData) di_Injector.Org.getInstance('Binance');
-        
-        Test.startTest();
-        Long startTime = binanceData.getStartTime();
-
-        system.assertEquals(
-            latestTime,
-            startTime,
-            'Retrived startTime is not correct. Expecting ' + latestTime
-        );
-        Test.stopTest();
-    }    
 }

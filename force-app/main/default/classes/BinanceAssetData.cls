@@ -68,22 +68,26 @@ public with sharing class BinanceAssetData implements IAssetData {
             request.setEndpoint(ep + endpointPath);
             try {
                 response = http.send(request);
-                if(response.getStatusCode() != 200){
+                Integer statusCode = response.getStatusCode();
+                if(statusCode== 200) return response;
+                if(statusCode != 200){
                     failCount++;
                     system.debug(
                         'WARNING DATA_SOURCE_101: ' + ep + endpointPath + 
-                        ' returned ' + response.getStatusCode()
+                        ' returned ' + response.getStatusCode() +
+                        response.getBody()
                     );
                 } 
             } catch (Exception e) {
                 failCount++;
                 errorList.add(e);
                 system.debug(
-                    'WARNING DATA_SOURCE_101: ' +
+                    'WARNING DATA_SOURCE_102: ' +
                     ep + ' call failed with message ' + e.getMessage()
                 );
             }
         }
+        
         if(failCount >= availableClusters.size()){
             system.debug('ERROR DATA_SOURCE_404: ' + String.valueof(errorList));
             throw new DataSourceRequestException(
