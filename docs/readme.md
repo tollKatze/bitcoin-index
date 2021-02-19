@@ -8,11 +8,12 @@
 
 Please refer to Binance API docs for detailed 400 erors
 
-|ERROR              |SEVERITY       |DESCRIPTION                                |BINANCE API ERROR  |
-|-------------------|---------------|-------------------------------------------|-------------------|
-|DATA_SOURCE_101    |Warining       |API cluster callout failed with exception  |not aplicable      |
-|DATA_SOURCE_102    |Warining       |API cluster callout response other than 200|       
-|DATA_SOURCE_404    |Critical       |All available clusters failed.             |
+|ERROR              |SEVERITY       |DESCRIPTION                                    |
+|-------------------|---------------|-----------------------------------------------|
+|DATA_SOURCE_101    |Warining       |API cluster callout failed with exception      |
+|DATA_SOURCE_102    |Warining       |API cluster callout response other than 200    |       
+|DATA_SOURCE_404    |Critical       |All available clusters failed.                 |
+|DATA_INSERTION_404 |Critical       |
 
 
 

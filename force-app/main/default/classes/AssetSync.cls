@@ -3,14 +3,16 @@ public class AssetSync {
 
     public AssetSync(){}
     
-    public Boolean commitAssetData(Map<Long, AssetCandleObject> candleData, String pair, String exchange) {
+    public List<Database.SaveResult> commitAssetData(Map<Long, AssetCandleObject> candleData, String pair, String exchange) {
+        if( candleData == null ||candleData.isEmpty() ) {
+            return new List<Database.SaveResult>();
+        }
         
         String sObjectName = exchange + '_' + pair + '__c';
         Map<Long, SObject> newAssetData = new Map<Long, SObject>();
 
         for(Long candle : candleData.keySet()){
-            
-            Binance_BTCUSDT__c objectToCommit = new Binance_BTCUSDT__c();
+            sObject objectToCommit = Schema.getGlobalDescribe().get(sObjectName).newSObject() ;
             objectToCommit.clear();
             objectToCommit.put( 'unix_time__c', (Decimal) candleData.get(candle).unix_time );
             objectToCommit.put( 'date__c', candleData.get(candle).date_time );
@@ -19,8 +21,6 @@ public class AssetSync {
             objectToCommit.put( 'low__c', candleData.get(candle).low );
             objectToCommit.put( 'close__c', candleData.get(candle).close );
             
-            System.debug('object to commit: ' + objectToCommit);
-            
             String stringUnixTime =  String.valueOf(candleData.get(candle).unix_time);
 
             newAssetData.put(
@@ -28,15 +28,15 @@ public class AssetSync {
                 objectToCommit
             );
         }
-        
-        System.debug('Map of objects to commit: ' + newAssetData);
+        List<Database.SaveResult> assetDataInsertionResult = new List<Database.SaveResult>();
+
         try {
-            Database.SaveResult[] assetDataInsertionResult = Database.insert(newAssetData.values(), true);
-            return true;
+            assetDataInsertionResult = Database.insert(newAssetData.values(), true);
+            return assetDataInsertionResult;
         } catch (Exception  e) {
-            System.debug('e.getMessage(): ' + e.getMessage());
-            System.debug('e.getStackTraceString(): ' + e.getStackTraceString());
-            return false;
+            System.debug('Error message: ' + e.getMessage());
+            System.debug('Error stack: ' + e.getStackTraceString());
+            return assetDataInsertionResult;
         }
     }
 }   
